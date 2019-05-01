@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/update"
+            android:icon="@drawable/updated"
+            android:title="Cập nhật dữ liệu" />
+        <item
+            android:id="@+id/thongtin"
+            android:icon="@drawable/thongtin"
+            android:title="Thông tin" />
+        <item
+            android:id="@+id/gopy"
+            android:icon="@drawable/email"
+            android:title="Góp ý" />
+    </group>
+</menu>
+

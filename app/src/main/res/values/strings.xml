@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Bình Liêu APP</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Bình Liêu APP</string>
+    <string name="nav_header_subtitle">Ứng dụng công nghệ</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_gopy">Hãy đóng góp ý kiến để chúng tôi tạo sản phẩm dành cho bạn tốt hơn.</string>
+    <string name="okgopy">Cảm ơn bạn đã góp ý cho chúng tôi. Chúng tôi sẽ kiểm tra và cập nhật dữ liệu sớm nhất!</string>
+    <string name="tip"><b>Tips: </b>Mọi góp ý hoặc lỗi ứng dụng bạn có thể liên hệ ngay cho tôi. Facebook: fb.com/lathanhhanh</string>
+    <string name="tip2"><b>Tips: </b>Hiện tại chưa có ảnh, bạn có thể đóng góp ảnh bằng cách liên hệ với tôi. Facebook: fb.com/lathanhhanh</string>
+</resources>
