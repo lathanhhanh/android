@@ -4,7 +4,7 @@
 - Môn: Phát triển ứng dụng trên thiết bị di động.
 - Tên đề tài : APP Thông tin về bến xe khách Bình Liêu 
 ## Link APK
-Download APK [ở đây](https://github.com/lathanhhanh/android/blob/master/app/release/app-release.apk)
+Download APK [ở đây](https://github.com/lathanhhanh/android/raw/master/app/release/app-release.apk)
 ## Một số hình ảnh của ứng dụng
 ![alt tag](https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-9/59350707_2314681362121844_7218179487140151296_n.jpg?_nc_cat=109&_nc_oc=AQkS7EjupQC-lXv7g57geYou0pEW0cZxSU21jwAYfPukeWynfIhc-MUqBjKWu3J6qa4&_nc_ht=scontent.fhan5-1.fna&oh=bcefe8c45241c425b11c4a92595c0a54&oe=5D633195)
 ![alt tag](https://scontent.fhan5-7.fna.fbcdn.net/v/t1.0-9/58729744_2314681395455174_7940719803826700288_n.jpg?_nc_cat=103&_nc_oc=AQngoqExr3IrC0rHBAomJcDAS9D5M9jag6_1EY3j26Smbe1CScvD4pJwaQ_1kNZs0Pk&_nc_ht=scontent.fhan5-7.fna&oh=c183360d71a5d5c7eb11ffb42fe01aa1&oe=5D69FF73)
