@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         db = openOrCreateDatabase("binhlieu.db", MODE_PRIVATE, null);
         if(kiemtraCSDL(db)==false){
             taoCSDL();
-            themCSDL();
+            khoiTao();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         String sql = "CREATE TABLE IF NOT EXISTS thongtin(id integer, tuyen text, bienso text,giave text, soghe text, thoigian1 text,thoigian2 text, sodienthoai text, ghichu text)";
         db.execSQL(sql);
     }
-    private void themCSDL()
+    private void khoiTao()
     {
         final ProgressDialog pDialog;
         pDialog = new ProgressDialog(MainActivity.this);
@@ -120,18 +120,54 @@ public class MainActivity extends AppCompatActivity
         call.enqueue(new Callback<Data>() {
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
-                List<XeKhach> datas = response.body().getData();
-                insertData(datas);
                 pDialog.dismiss();
-                Toast.makeText(MainActivity.this, "Cập nhật dữ liệu thành công!", Toast.LENGTH_LONG).show();
+                if(response.isSuccessful()){
+                    List<XeKhach> datas = response.body().getData();
+                    insertData(datas);
+                    Toast.makeText(MainActivity.this, "Cập nhật dữ liệu thành công!", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Cập nhật dữ liệu không thành công!", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onFailure(Call<Data> call, Throwable t) {
                 pDialog.dismiss();
+                Toast.makeText(MainActivity.this, "Không có mạng!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+    private void capnhatCSDL()
+    {
+        final ProgressDialog pDialog;
+        pDialog = new ProgressDialog(MainActivity.this);
+        pDialog.setMessage("Đang tải dữ liệu.. Vui lòng chờ...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+        RetrofitClient.ApiService  api = RetrofitClient.getApiService();
+        final Call<Data> call = api.getData("all");
+        call.enqueue(new Callback<Data>() {
+            @Override
+            public void onResponse(Call<Data> call, Response<Data> response) {
+                pDialog.dismiss();
+                if(response.isSuccessful()){
+                    xoaCSDL();
+                    taoCSDL();
+                    List<XeKhach> datas = response.body().getData();
+                    insertData(datas);
+                    Toast.makeText(MainActivity.this, "Cập nhật dữ liệu thành công!", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Cập nhật dữ liệu không thành công!", Toast.LENGTH_LONG).show();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<Data> call, Throwable t) {
+                pDialog.dismiss();
+                Toast.makeText(MainActivity.this, "Không có kết nối mạng!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
     private void insertData(List<XeKhach> datas)
     {
@@ -158,11 +194,5 @@ public class MainActivity extends AppCompatActivity
         db = openOrCreateDatabase("binhlieu.db", MODE_PRIVATE, null);
         String sql = "DROP TABLE thongtin";
         db.execSQL(sql);
-    }
-    private  void capnhatCSDL()
-    {
-        xoaCSDL();
-        taoCSDL();
-        themCSDL();
     }
 }
