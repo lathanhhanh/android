@@ -1,10 +1,13 @@
 package com.lathanhhanh.binhlieuapp;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -44,9 +47,17 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         db = openOrCreateDatabase("binhlieu.db", MODE_PRIVATE, null);
+
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+
         if(kiemtraCSDL(db)==false){
-            taoCSDL();
-            khoiTao();
+            if(networkInfo != null && networkInfo.isConnected()){
+                taoCSDL();
+                themCSDL();
+            }else{
+                Toast.makeText(MainActivity.this, "Không có kết nối mạng!", Toast.LENGTH_SHORT).show();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -75,6 +86,8 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -85,7 +98,11 @@ public class MainActivity extends AppCompatActivity
             Intent i2 = new Intent(MainActivity.this, GopYActivity.class);
             startActivity(i2);
         } else if (id == R.id.update) {
-            capnhatCSDL();
+            if(networkInfo != null && networkInfo.isConnected()){
+                capnhatCSDL();
+            }else{
+                Toast.makeText(MainActivity.this, "Không có kết nối mạng!", Toast.LENGTH_SHORT).show();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -107,7 +124,7 @@ public class MainActivity extends AppCompatActivity
         String sql = "CREATE TABLE IF NOT EXISTS thongtin(id integer, tuyen text, bienso text,giave text, soghe text, thoigian1 text,thoigian2 text, sodienthoai text, ghichu text)";
         db.execSQL(sql);
     }
-    private void khoiTao()
+    private void themCSDL()
     {
         final ProgressDialog pDialog;
         pDialog = new ProgressDialog(MainActivity.this);
@@ -121,51 +138,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<Data> call, Response<Data> response) {
                 pDialog.dismiss();
-                if(response.isSuccessful()){
-                    List<XeKhach> datas = response.body().getData();
-                    insertData(datas);
-                    Toast.makeText(MainActivity.this, "Cập nhật dữ liệu thành công!", Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(MainActivity.this, "Cập nhật dữ liệu không thành công!", Toast.LENGTH_LONG).show();
-                }
+                List<XeKhach> datas = response.body().getData();
+                insertData(datas);
+                Toast.makeText(MainActivity.this, "Cập nhật dữ liệu thành công!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<Data> call, Throwable t) {
                 pDialog.dismiss();
-                Toast.makeText(MainActivity.this, "Không có mạng!", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-    private void capnhatCSDL()
-    {
-        final ProgressDialog pDialog;
-        pDialog = new ProgressDialog(MainActivity.this);
-        pDialog.setMessage("Đang tải dữ liệu.. Vui lòng chờ...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        pDialog.show();
-        RetrofitClient.ApiService  api = RetrofitClient.getApiService();
-        final Call<Data> call = api.getData("all");
-        call.enqueue(new Callback<Data>() {
-            @Override
-            public void onResponse(Call<Data> call, Response<Data> response) {
-                pDialog.dismiss();
-                if(response.isSuccessful()){
-                    xoaCSDL();
-                    taoCSDL();
-                    List<XeKhach> datas = response.body().getData();
-                    insertData(datas);
-                    Toast.makeText(MainActivity.this, "Cập nhật dữ liệu thành công!", Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(MainActivity.this, "Cập nhật dữ liệu không thành công!", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Data> call, Throwable t) {
-                pDialog.dismiss();
-                Toast.makeText(MainActivity.this, "Không có kết nối mạng!", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Không có kết nối mạng!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -194,5 +175,11 @@ public class MainActivity extends AppCompatActivity
         db = openOrCreateDatabase("binhlieu.db", MODE_PRIVATE, null);
         String sql = "DROP TABLE thongtin";
         db.execSQL(sql);
+    }
+    private void capnhatCSDL()
+    {
+        xoaCSDL();
+        taoCSDL();
+        themCSDL();
     }
 }
