@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        ConnectivityManager manager1 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo1 = manager1.getActiveNetworkInfo();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
             Intent i2 = new Intent(MainActivity.this, GopYActivity.class);
             startActivity(i2);
         } else if (id == R.id.update) {
-            if(networkInfo != null && networkInfo.isConnected()){
+            if(networkInfo1 != null && networkInfo1.isConnected()){
                 capnhatCSDL();
             }else{
                 Toast.makeText(MainActivity.this, "Không có kết nối mạng!", Toast.LENGTH_SHORT).show();
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onFailure(Call<Data> call, Throwable t) {
                 pDialog.dismiss();
-                Toast.makeText(MainActivity.this, "Không có kết nối mạng!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Lấy dữ liệu thất bại", Toast.LENGTH_SHORT).show();
             }
         });
     }

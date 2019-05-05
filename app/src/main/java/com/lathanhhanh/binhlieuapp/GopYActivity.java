@@ -59,7 +59,7 @@ public class GopYActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(Call<Data> call, Throwable t) {
                                 pDialog.dismiss();
-                                Toast.makeText(GopYActivity.this, "Không có kết nối mạng!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(GopYActivity.this, "Gửi thất bại!", Toast.LENGTH_LONG).show();
                             }
                         });
                     }else{
